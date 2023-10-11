@@ -1,0 +1,18 @@
+import cv2
+src = cv2.imread('./data/tomato.jpg',cv2.IMREAD_COLOR)
+hsv = cv2.cvtColor(src,cv2.COLOR_BGR2HSV)
+lower_orange = (160,50,50) #주황색 범위
+upper_orange =(180,255,255)
+lower_red = (0,50,50)
+upper_red = (6,255,255)
+lower_blue = (50,50,50)
+upper_blue = (70,255,255)
+mask_orange = cv2.inRange(hsv,lower_orange,upper_orange)
+mask_blue = cv2.inRange(hsv,lower_blue,upper_blue)
+mask_red = cv2.inRange(hsv,lower_red,upper_red)
+mask_combined = cv2.bitwise_or(mask_blue,mask_orange)
+mask_max = cv2.bitwise_or(mask_combined,mask_red)
+orange_and_blue = cv2.bitwise_and(src,src,mask = mask_max)
+cv2.imshow('orange and blue',orange_and_blue)
+cv2.waitKey()
+cv2.destroyAllWindows()
